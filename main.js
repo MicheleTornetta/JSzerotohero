@@ -70,10 +70,9 @@ document.querySelector(".weather-group").addEventListener("click", function(e) {
 
   let localTime = new Date();
 
-
-  console.log("outside the timeout");
-  setInterval(function() {
+ setInterval(function() {
     document.querySelector("span[data-time=hours]").innerHTML = localTime.getHours().toString().padStart(2,"0");
     document.querySelector("span[data-time=minutes]").innerHTML = localTime.getMinutes().toString().padStart(2,"0");
     document.querySelector("span[data-time=seconds]").innerHTML = localTime.getSeconds().toString().padStart(2,"0");
 },1000);
+console.log("localTime");

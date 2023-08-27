@@ -50,7 +50,7 @@ document.querySelector("p#weather").innerHTML = celsiusText;
 
 document.querySelector(".weather-group").addEventListener("click", function(e) {
 
-    if (e.target.id == "celsius") {
+  if (e.target.id == "celsius") {
       document.querySelector("p#weather").innerHTML = celsiusText;
     } else if (e.target.id == "fahr") {
       document.querySelector("p#weather").innerHTML = fahrText;
@@ -68,11 +68,10 @@ document.querySelector(".weather-group").addEventListener("click", function(e) {
 	//To get just seconds 
 	//new Date().getSeconds()
 
-  let localTime = new Date();
-
  setInterval(function() {
-    document.querySelector("span[data-time=hours]").innerHTML = localTime.getHours().toString().padStart(2,"0");
-    document.querySelector("span[data-time=minutes]").innerHTML = localTime.getMinutes().toString().padStart(2,"0");
-    document.querySelector("span[data-time=seconds]").innerHTML = localTime.getSeconds().toString().padStart(2,"0");
+    let localTime = new Date();
+      document.querySelector("span[data-time=hours]").innerHTML = localTime.getHours().toString().padStart(2,"0");
+      document.querySelector("span[data-time=minutes]").innerHTML = localTime.getMinutes().toString().padStart(2,"0");
+      document.querySelector("span[data-time=seconds]").innerHTML = localTime.getSeconds().toString().padStart(2,"0");
 },1000);
 console.log("localTime");

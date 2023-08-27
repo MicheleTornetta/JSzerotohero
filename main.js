@@ -49,11 +49,31 @@ document.querySelector("p#weather").innerHTML = celsiusText;
 //create event listener for the celcius/fahr radio buttons by using the div class where the buttons are placed - div class is weather-group - using console.log clock on a button and find where you clicked - in this case target: input#celsius
 
 document.querySelector(".weather-group").addEventListener("click", function(e) {
-    //celsius
-    //fahr
+
     if (e.target.id == "celsius") {
       document.querySelector("p#weather").innerHTML = celsiusText;
     } else if (e.target.id == "fahr") {
       document.querySelector("p#weather").innerHTML = fahrText;
     }
   });
+
+  //add local time to page
+
+  //To get just minutes
+	//new Date().getHours()
+	
+	//To get just minutes
+	//new Date().getMinutes()
+	
+	//To get just seconds 
+	//new Date().getSeconds()
+
+  let localTime = new Date();
+
+
+  console.log("outside the timeout");
+  setInterval(function() {
+    document.querySelector("span[data-time=hours]").innerHTML = localTime.getHours().toString().padStart(2,"0");
+    document.querySelector("span[data-time=minutes]").innerHTML = localTime.getMinutes().toString().padStart(2,"0");
+    document.querySelector("span[data-time=seconds]").innerHTML = localTime.getSeconds().toString().padStart(2,"0");
+},1000);

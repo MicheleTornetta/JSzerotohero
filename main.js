@@ -70,7 +70,9 @@ document.querySelector(".weather-group").addEventListener("click", function(e) {
 
  setInterval(function() {
     let localTime = new Date();
-      document.querySelector("span[data-time=hours]").innerHTML = localTime.getHours().toString().padStart(2,"0");
+    let locales = en-US;
+    let options = 'hour12: true';
+      document.querySelector("span[data-time=hours]").innerHTML = localTime.getHours().toLocaleString(locales, options).padStart(2,"0");
       document.querySelector("span[data-time=minutes]").innerHTML = localTime.getMinutes().toString().padStart(2,"0");
       document.querySelector("span[data-time=seconds]").innerHTML = localTime.getSeconds().toString().padStart(2,"0");
 },1000);

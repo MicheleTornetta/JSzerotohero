@@ -1,4 +1,20 @@
 
+//Gallery Images - global
+const galleryImages = [
+  {
+    src: "./assets/gallery/image1.jpg",
+    alt: "Thumbnail Image 1",
+  },
+  {
+    src: "./assets/gallery/image2.jpg",
+    alt: "Thumbnail Image 2",
+  },
+  {
+    src: "./assets/gallery/image3.jpg",
+    alt: "Thumbnail Image 3",
+  },
+];
+
 //Nav bar handler
 function menuHandler() {
 // DOM function to open/close nav menu bar
@@ -84,7 +100,6 @@ function celsiusToFahr(temperature) {
 //add local time to page handler
 function clockHandler(){
 
-
 //To get just minutes
 //new Date().getHours()
 
@@ -100,7 +115,7 @@ setInterval(function () {
   // let options = 'hour12: true';
   document.querySelector("span[data-time=hours]").innerHTML = localTime
     .getHours()
-    .toLocaleString(locale, options)
+    .toLocaleString()
     .padStart(2, "0");
   document.querySelector("span[data-time=minutes]").innerHTML = localTime
     .getMinutes()
@@ -115,20 +130,7 @@ setInterval(function () {
 
 // Gallery handler
 function galleryHandler(){
-const galleryImages = [
-  {
-    src: "./assets/gallery/image1.jpg",
-    alt: "Thumbnail Image 1",
-  },
-  {
-    src: "./assets/gallery/image2.jpg",
-    alt: "Thumbnail Image 2",
-  },
-  {
-    src: "./assets/gallery/image3.jpg",
-    alt: "Thumbnail Image 3",
-  },
-];
+
 
 let mainImage = document.querySelector("#gallery > img");
 let thumbnails = document.querySelector("#gallery .thumbnails");

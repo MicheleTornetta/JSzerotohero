@@ -1,32 +1,31 @@
+
+//Nav bar handler
+function menuHandler() {
 // DOM function to open/close nav menu bar
 
 // document.querySelector("#open-nav-menu").addEventListener("click", function()
 // {alert("added an alert to see if working")}
 // );
 
-// Open Nav bar
+  // Open Nav bar
+  document
+    .querySelector("#open-nav-menu")
+    .addEventListener("click", function () {
+      document.querySelector("header nav .wrapper").classList.add("nav-open");
+    });
 
-document.querySelector("#open-nav-menu").addEventListener("click", function () {
-  document.querySelector("header nav .wrapper").classList.add("nav-open");
-});
-
-// Close Nav bar
-
-document
-  .querySelector("#close-nav-menu")
-  .addEventListener("click", function () {
-    document.querySelector("header nav .wrapper").classList.remove("nav-open");
-  });
-
-//Temperature Conversion function
-
-function celsiusToFahr(temperature) {
-  let fahr = temperature * 1.8 + 32;
-  return fahr;
+  // Close Nav bar
+  document
+    .querySelector("#close-nav-menu")
+    .addEventListener("click", function () {
+      document
+        .querySelector("header nav .wrapper")
+        .classList.remove("nav-open");
+    });
 }
 
-// Greeting Section
-
+// Greeting Section/handler
+function greetingHandler(){
 //change h1 greeting
 let currentHour = new Date().getHours();
 let greetingText;
@@ -74,8 +73,17 @@ document
       document.querySelector("p#weather").innerHTML = fahrText;
     }
   });
+}
 
-//add local time to page
+//Temperature Conversion function
+function celsiusToFahr(temperature) {
+  let fahr = temperature * 1.8 + 32;
+  return fahr;
+}
+
+//add local time to page handler
+function clockHandler(){
+
 
 //To get just minutes
 //new Date().getHours()
@@ -103,10 +111,10 @@ setInterval(function () {
     .toString()
     .padStart(2, "0");
 }, 1000);
-console.log("localTime");
+}
 
-// Gallery
-
+// Gallery handler
+function galleryHandler(){
 const galleryImages = [
   {
     src: "./assets/gallery/image1.jpg",
@@ -135,7 +143,7 @@ galleryImages.forEach(function (image, index) {
   thumb.dataset.arrayIndex = index;
   //set the condition w/index === 0 then ? if value true set as true then : if the data value isn't 0 then it should be set as false - "ternary if"
   thumb.dataset.selected = index === 0 ? true : false;
-  
+
   //setting the event listener e=event which will change the main image
 
   thumb.addEventListener("click", function (e) {
@@ -157,3 +165,10 @@ galleryImages.forEach(function (image, index) {
 
   thumbnails.appendChild(thumb);
 });
+}
+
+//Page Load
+menuHandler();
+greetingHandler();
+clockHandler();
+galleryHandler();

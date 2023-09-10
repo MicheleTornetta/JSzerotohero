@@ -150,13 +150,32 @@ function clockHandler(){
 //To get just seconds
 //new Date().getSeconds()
 
+//hour conversion 
+
+/**
+ * 
+ * @param {number} hours 0 to 23 
+ * @returns {number} a number between 1 to 12
+ */
+
+function formatHours(hours){
+  if (hours === 12 || hours === 0){
+    return 12;
+  }
+  else {
+    //use a modulo
+    return hours % 12;
+
+  }
+}
+
 setInterval(function () {
   let localTime = new Date();
-  // let locales = en-US;
-  // let options = 'hour12: true';
-  document.querySelector("span[data-time=hours]").innerHTML = localTime
-    .getHours()
-    .toLocaleString()
+  // let locales = 'en-US';
+  // let options = {hour12: true, hour:"numeric", minute: "numeric"};
+    document.querySelector("span[data-time=hours]").innerHTML = formatHours(localTime
+    .getHours())
+    .toString()
     .padStart(2, "0");
   document.querySelector("span[data-time=minutes]").innerHTML = localTime
     .getMinutes()
@@ -239,7 +258,7 @@ function productsHandler(){
     //Add all child html elements of the product
     productElement.append(productImage);
 
-    // Add the complete individual elements to the html product section
+    // Add the complete individual proedut to the html product section
     productsSection.append(productElement);
   });
 }

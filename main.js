@@ -15,6 +15,47 @@ const galleryImages = [
   },
 ];
 
+//Product - global
+
+const proucts = [
+  {
+    title: "AstroFiction",
+    author: "John Doe",
+    price: 49.9,
+    image: "./assets/products/img6.png"
+  },
+  {
+    title: "Space Odissey",
+    author: "Marie Anne",
+    price: 35,
+    image: "./assets/products/img1.png"
+  },
+  {
+    title: "Doomed City",
+    author: "Jason Cobert",
+    price: 0,
+    image: "./assets/products/img2.png"
+  },
+  {
+    title: "Black Dog",
+    author: "John Doe",
+    price: 85.35,
+    image: "./assets/products/img3.png"
+  },
+  {
+    title: "My Little Robot",
+    author: "Pedro Paulo",
+    price: 0,
+    image: "./assets/products/img5.png"
+  },
+  {
+    title: "Garden Girl",
+    author: "Ankit Patel",
+    price: 45,
+    image: "./assets/products/img4.png"
+  }
+];
+
 //Nav bar handler
 function menuHandler() {
 // DOM function to open/close nav menu bar
@@ -169,8 +210,43 @@ galleryImages.forEach(function (image, index) {
 });
 }
 
+//Product Section
+
+/* <div class="product-item">
+    <img src="./assets/products/img6.png" alt="AstroFiction">
+    <div class="product-details">
+      <h3 class="product-title">AstroFiction</h3>
+      <p class="product-author">John Doe</p>
+      <p class="price-title">Price</p>
+      <p class="product-price">$ 49.90</p>
+    </div> */
+
+function productsHandler(){
+  let productsSection = document.querySelector(".products-area");
+
+  //Run a loop through the products and create an html element ('product-item') for each
+  products.forEach(function(product, index){
+
+    //Create the html element for each individual product
+    let productElement = document.createElement("div");
+    productElement.classList.add("product-item");
+
+    //Create the product image
+    let productImage = document.createElement("img");
+    productImage.src = product.image;
+    productImage.alt = "Image for " + product.title;
+
+    //Add all child html elements of the product
+    productElement.append(productImage);
+
+    // Add the complete individual elements to the html product section
+    productsSection.append(productElement);
+  });
+}
+
 //Page Load
 menuHandler();
 greetingHandler();
 clockHandler();
 galleryHandler();
+productsHandler();

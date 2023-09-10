@@ -17,7 +17,7 @@ const galleryImages = [
 
 //Product - global
 
-const proucts = [
+const products = [
   {
     title: "AstroFiction",
     author: "John Doe",

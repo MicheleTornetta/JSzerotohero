@@ -270,7 +270,12 @@ function insertProductsOntoPage() {
 
     let productPrice = document.createElement("p");
     productPrice.classList.add("product-price");
-    productPrice.textContent = "$" + product.price;
+      //use terinary conditional on price for free items
+    productPrice.textContent = product.price > 0 ? "$" + product.price.toFixed(2) : "Free";
+
+  
+
+
 
     //Add all child html elements of the product
     productElement.append(productImage);

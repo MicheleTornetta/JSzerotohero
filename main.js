@@ -226,25 +226,23 @@ function createImageSelector() {
 
 //Product Section
 
-/* <div class="product-item">
-    <img src="./assets/products/img6.png" alt="AstroFiction">
-    <div class="product-details">
-      <h3 class="product-title">AstroFiction</h3>
-      <p class="product-author">John Doe</p>
-      <p class="price-title">Price</p>
-      <p class="product-price">$ 49.90</p>
-    </div> */
+function populateProducts(productList){
 
-function insertProductsOntoPage() {
   let productsSection = document.querySelector(".products-area");
+  productsSection.textContent = "";
+
+
 
   //Run a loop through the products and create an html element ('product-item') for each
-  products.forEach(function (product, index) {
+  productList.forEach(function (product, index) {
+
     //Create the html element for each individual product
+
     let productElement = document.createElement("div");
     productElement.classList.add("product-item");
 
     //Create the product image
+
     let productImage = document.createElement("img");
     productImage.src = product.image;
     productImage.alt = "Image for " + product.title;
@@ -273,10 +271,6 @@ function insertProductsOntoPage() {
       //use terinary conditional on price for free items
     productPrice.textContent = product.price > 0 ? "$" + product.price.toFixed(2) : "Free";
 
-  
-
-
-
     //Add all child html elements of the product
     productElement.append(productImage);
     productElement.append(productDetails);
@@ -291,6 +285,43 @@ function insertProductsOntoPage() {
     productsSection.append(productElement);
   });
 }
+
+function insertProductsOntoPage() {
+
+
+  //Create variables for the filtered arrays
+
+  let freeProducts = products.filter(function(item){
+    return !item.price || item.price <= 0;
+  });
+  let paidProducts = products.filter(function(item){
+    return item.price > 0;
+  });
+  
+  //filter array - Free and paid products filter
+
+  populateProducts(products);
+
+  document.querySelector(".products-filter label[for=all] span.product-amount").textContent = products.length;
+  document.querySelector(".products-filter label[for=paid] span.product-amount").textContent = paidProducts.length;
+  document.querySelector(".products-filter label[for=free] span.product-amount").textContent = freeProducts.length;
+  
+  //Show on Click free vs paid vs all products
+
+  let productsFilter = document.querySelector(".products-filter");
+  productsFilter.addEventListener("click", function(e){
+    if (e.target.id == "all") {
+      populateProducts(products);
+    } else if (e.target.id == "paid") {
+      populateProducts(paidProducts);
+    } else if (e.target.id == "free") {
+      populateProducts(freeProducts);
+    }
+ });  
+
+}
+
+
 
 //Page Load
 createNavBarDropDown();

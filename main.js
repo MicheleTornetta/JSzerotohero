@@ -144,7 +144,9 @@ function weatherByLocation() {
               document.querySelector("p#weather").innerHTML = fahrText;
             }
           });
-      });
+      }).catch((err => {
+        document.querySelector("p#weather").innerHTML = "Oops! There was an error and we are unable to show your weather!  Please refresh the page and choose Allow when asked if we can Know your location or try again later.";
+      }));
   });
 }
 

@@ -1,3 +1,8 @@
+//Weather
+// Replace the dynamic elements and send thm to the html - use template literals by using a ` instead of a ""
+const weatherAPIKey = "b8df162a76d2059ce6e51124287429ea";
+const weatherAPIURL = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric`;
+
 //Gallery Images - global
 const galleryImages = [
   {
@@ -96,39 +101,51 @@ function createGreeting() {
     greetingText = "Welcome!";
   }
 
-  // const greetingText = greetingText;
-  const weatherCondition = "sunny";
-  const userLocation = "Pennsylvania";
-
-  // using let for the temperature so it can go from celcius to farenheight
-  let temperature = 22.8673;
-  // Replace the dynamic elements and send thm to the html - use template literals by using a ` instead of a ""
-  // From there you can insert variables into the string by adding {} & $  and round the number using toFixed - and convert the temperatur to Fahrenheight using the function
-  let celsiusText = `The weather is ${weatherCondition} in ${userLocation} and it's ${temperature.toFixed(
-    1
-  )}°C outside.`;
-  let fahrText = `The weather is ${weatherCondition} in ${userLocation} and it's ${celsiusToFahr(
-    temperature
-  ).toFixed(1)}°F outside.`;
-
   //Send the greeting values to the html element - locate element id's for this
 
   //for greetingText - id is greeting (seen in code or console)
   document.querySelector("#greeting").innerHTML = greetingText;
-  //for celsiusText - id is greeting (seen in code or console)
-  document.querySelector("p#weather").innerHTML = celsiusText;
+}
 
-  //create event listener for the celcius/fahr radio buttons by using the div class where the buttons are placed - div class is weather-group - using console.log clock on a button and find where you clicked - in this case target: input#celsius
+//user weather by location
+function weatherByLocation() {
+  navigator.geolocation.getCurrentPosition( position => {
+    console.log(position);
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+    let url = weatherAPIURL
+      .replace("{lat}", latitude)
+      .replace("{lon}", longitude)
+      .replace("{API key}", weatherAPIKey);
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        const condition = data.weather[0].description;
+        const location = data.name;
+        const temperature = data.main.temp;
+        console.log(condition,location,temperature);
 
-  document
-    .querySelector(".weather-group")
-    .addEventListener("click", function (e) {
-      if (e.target.id == "celsius") {
+        // From there you can insert variables into the string by adding {} & $  and round the number using toFixed - and convert the temperatur to Fahrenheight using the function
+        let celsiusText = `The weather in ${location} indicates ${condition} and it's ${temperature.toFixed(1)}°C outside.`;
+        let fahrText = `The weather in ${location} indicates ${condition} and it's ${celsiusToFahr(temperature).toFixed(1)}°F outside.`;
+
+        //for celsiusText - id is greeting (seen in code or console)
         document.querySelector("p#weather").innerHTML = celsiusText;
-      } else if (e.target.id == "fahr") {
-        document.querySelector("p#weather").innerHTML = fahrText;
-      }
-    });
+
+        //create event listener for the celcius/fahr radio buttons by using the div class where the buttons are placed - div class is weather-group - using console.log clock on a button and find where you clicked - in this case target: input#celsius
+
+        document
+          .querySelector(".weather-group")
+          .addEventListener("click", function (e) {
+            if (e.target.id == "celsius") {
+              document.querySelector("p#weather").innerHTML = celsiusText;
+            } else if (e.target.id == "fahr") {
+              document.querySelector("p#weather").innerHTML = fahrText;
+            }
+          });
+      });
+  });
 }
 
 //Temperature Conversion function
@@ -139,14 +156,9 @@ function celsiusToFahr(temperature) {
 
 //add local time to page handler
 function insertLocalTime() {
-  //To get just minutes
-  //new Date().getHours()
-
-  //To get just minutes
-  //new Date().getMinutes()
-
-  //To get just seconds
-  //new Date().getSeconds()
+  //To get just minutes   //new Date().getHours()
+  //To get just minutes  //new Date().getMinutes()
+  //To get just seconds  //new Date().getSeconds()
 
   //hour conversion
 
@@ -226,16 +238,14 @@ function createImageSelector() {
 
 //Product Section
 
-function populateProducts(productList){
-
+function populateProducts(productList) {
   let productsSection = document.querySelector(".products-area");
+
+  //clears the products for the click event so they don't duplicate
   productsSection.textContent = "";
-
-
 
   //Run a loop through the products and create an html element ('product-item') for each
   productList.forEach(function (product, index) {
-
     //Create the html element for each individual product
 
     let productElement = document.createElement("div");
@@ -268,8 +278,9 @@ function populateProducts(productList){
 
     let productPrice = document.createElement("p");
     productPrice.classList.add("product-price");
-      //use terinary conditional on price for free items
-    productPrice.textContent = product.price > 0 ? "$" + product.price.toFixed(2) : "Free";
+    //use terinary conditional on price for free items
+    productPrice.textContent =
+      product.price > 0 ? "$" + product.price.toFixed(2) : "Free";
 
     //Add all child html elements of the product
     productElement.append(productImage);
@@ -287,29 +298,42 @@ function populateProducts(productList){
 }
 
 function insertProductsOntoPage() {
-
-
   //Create variables for the filtered arrays
 
-  let freeProducts = products.filter(function(item){
+  let freeProducts = products.filter(function (item) {
     return !item.price || item.price <= 0;
   });
-  let paidProducts = products.filter(function(item){
+
+  //or
+
+  // let freeProducts = products.filter( item => !item.price || item.price <= 0);
+
+  let paidProducts = products.filter(function (item) {
     return item.price > 0;
   });
-  
+
+  //or
+
+  // let paidProducts = products.filter( item => item.price > 0);
+
   //filter array - Free and paid products filter
 
   populateProducts(products);
 
-  document.querySelector(".products-filter label[for=all] span.product-amount").textContent = products.length;
-  document.querySelector(".products-filter label[for=paid] span.product-amount").textContent = paidProducts.length;
-  document.querySelector(".products-filter label[for=free] span.product-amount").textContent = freeProducts.length;
-  
+  document.querySelector(
+    ".products-filter label[for=all] span.product-amount"
+  ).textContent = products.length;
+  document.querySelector(
+    ".products-filter label[for=paid] span.product-amount"
+  ).textContent = paidProducts.length;
+  document.querySelector(
+    ".products-filter label[for=free] span.product-amount"
+  ).textContent = freeProducts.length;
+
   //Show on Click free vs paid vs all products
 
   let productsFilter = document.querySelector(".products-filter");
-  productsFilter.addEventListener("click", function(e){
+  productsFilter.addEventListener("click", function (e) {
     if (e.target.id == "all") {
       populateProducts(products);
     } else if (e.target.id == "paid") {
@@ -317,8 +341,15 @@ function insertProductsOntoPage() {
     } else if (e.target.id == "free") {
       populateProducts(freeProducts);
     }
- });  
+  });
+}
 
+//footer
+function footerCopywriteCurrentYear() {
+  let currentYear = new Date().getFullYear();
+  document.querySelector(
+    "footer"
+  ).textContent = `© ${currentYear} - All rights reserved`;
 }
 
 
@@ -327,5 +358,7 @@ function insertProductsOntoPage() {
 createNavBarDropDown();
 createGreeting();
 insertLocalTime();
+weatherByLocation();
 createImageSelector();
 insertProductsOntoPage();
+footerCopywriteCurrentYear();

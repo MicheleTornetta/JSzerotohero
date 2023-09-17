@@ -109,7 +109,7 @@ function createGreeting() {
 
 //user weather by location
 function weatherByLocation() {
-  navigator.geolocation.getCurrentPosition( position => {
+  navigator.geolocation.getCurrentPosition((position) => {
     console.log(position);
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
@@ -118,35 +118,46 @@ function weatherByLocation() {
       .replace("{lon}", longitude)
       .replace("{API key}", weatherAPIKey);
     fetch(url)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
         const condition = data.weather[0].description;
         const location = data.name;
         const temperature = data.main.temp;
-        console.log(condition,location,temperature);
+        console.log(condition, location, temperature);
 
         // From there you can insert variables into the string by adding {} & $  and round the number using toFixed - and convert the temperatur to Fahrenheight using the function
-        let celsiusText = `The weather in ${location} indicates ${condition} and it's ${temperature.toFixed(1)}°C outside.`;
-        let fahrText = `The weather in ${location} indicates ${condition} and it's ${celsiusToFahr(temperature).toFixed(1)}°F outside.`;
+        let celsiusText = `The weather in ${location} indicates ${condition} and it's ${temperature.toFixed(
+          1
+        )}°C outside.`;
+        let fahrText = `The weather in ${location} indicates ${condition} and it's ${celsiusToFahr(
+          temperature
+        ).toFixed(1)}°F outside.`;
 
         //for celsiusText - id is greeting (seen in code or console)
-        document.querySelector("p#weather").innerHTML = celsiusText;
+        document.querySelector("p#weather").innerHTML = fahrText;
 
         //create event listener for the celcius/fahr radio buttons by using the div class where the buttons are placed - div class is weather-group - using console.log clock on a button and find where you clicked - in this case target: input#celsius
 
         document
           .querySelector(".weather-group")
           .addEventListener("click", function (e) {
-            if (e.target.id == "celsius") {
-              document.querySelector("p#weather").innerHTML = celsiusText;
-            } else if (e.target.id == "fahr") {
+            if (e.target.id == "fahr") {
               document.querySelector("p#weather").innerHTML = fahrText;
+              // document.getElementById('fahr').setAttribute('checked', 'true');
+              // document.getElementById('celsius').setAttribute('checked', 'false');
+            } else if (e.target.id == "celsius") {
+              document.querySelector("p#weather").innerHTML = celsiusText;
+              // document.getElementById('celsius').setAttribute('checked', 'true');
+              // document.getElementById('fahr').setAttribute('checked', 'false');
+
             }
           });
-      }).catch((err => {
-        document.querySelector("p#weather").innerHTML = "Oops! There was an error and we are unable to show your weather!  Please refresh the page and choose Allow when asked if we can Know your location or try again later.";
-      }));
+      })
+      .catch((err) => {
+        document.querySelector("p#weather").innerHTML =
+          "Oops! There was an error and we are unable to show your weather!  Please refresh the page and choose Allow when asked if we can Know your location or try again later.";
+      });
   });
 }
 
@@ -353,8 +364,6 @@ function footerCopywriteCurrentYear() {
     "footer"
   ).textContent = `© ${currentYear} - All rights reserved`;
 }
-
-
 
 //Page Load
 createNavBarDropDown();
